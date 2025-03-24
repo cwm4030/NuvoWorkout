@@ -7,7 +7,7 @@ podman run --pod=nuvo-workout \
     -d dpage/pgadmin4:latest
 
 podman run --pod=nuvo-workout \
-    -e POSTGRES_USER=nuvo-workout \
+    -e POSTGRES_USER=nuvo_workout \
     -e POSTGRES_PASSWORD=SuperSecret \
     --name db \
     -d postgres:latest

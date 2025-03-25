@@ -77,5 +77,6 @@ create table nw_user_set(
     name varchar(128) null,
     description varchar(256) null,
     set_number int null,
+    number_of_reps int null,
     nw_user_workout_id bigint null references nw_user_workout(id)
 );

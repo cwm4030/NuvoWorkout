@@ -1,4 +1,4 @@
-podman pod create --name nuvo-workout -p 9875:80
+podman pod create --name nuvo-workout -p 9875:80 -p 5432:5432
 
 podman run --pod=nuvo-workout \
     -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \

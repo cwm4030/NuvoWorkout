@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NuvoWorkoutDbHelper.Context;
 
 namespace NuvoWorkoutDbHelper.Models;
 
@@ -27,8 +28,8 @@ public class NwUser
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasColumnName("id").HasColumnType("bigint").IsRequired();
             entity.Property(e => e.Inactive).HasColumnName("inactive").HasColumnType("boolean").IsRequired(false);
-            entity.Property(e => e.DateCreated).HasColumnName("date_created").HasColumnType("timestamp with time zone").IsRequired(false);
-            entity.Property(e => e.DateUpdated).HasColumnName("date_updated").HasColumnType("timestamp with time zone").IsRequired(false);
+            entity.Property(e => e.DateCreated).HasColumnName("date_created").HasColumnType("timestamp with time zone").HasConversion(UniversalDateTimeConverter.NullableDateTimeConverter).IsRequired(false);
+            entity.Property(e => e.DateUpdated).HasColumnName("date_updated").HasColumnType("timestamp with time zone").HasConversion(UniversalDateTimeConverter.NullableDateTimeConverter).IsRequired(false);
             entity.Property(e => e.Username).HasColumnName("username").HasColumnType("varchar(128)").IsRequired();
             entity.Property(e => e.PasswordHash).HasColumnName("password_hash").HasColumnType("varchar(512)").IsRequired();
             entity.Property(e => e.FirstName).HasColumnName("first_name").HasColumnType("varchar(128)").IsRequired(false);

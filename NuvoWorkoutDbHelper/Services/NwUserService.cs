@@ -9,7 +9,7 @@ public static class NwUserService
     {
         try
         {
-            var date = DateTime.Now.ToUniversalTime();
+            var date = DateTime.Now;
             var user = new NwUser()
             {
                 Id = 0,
@@ -27,7 +27,7 @@ public static class NwUserService
                 Weight = 210,
                 BodyFatPercentage = 27
             };
-            var context = new NuvoWorkoutContext(false);
+            var context = new NuvoWorkoutContext(true);
             _ = await context.NwUsers.AddAsync(user);
             await context.SaveChangesAsync();
             return true;

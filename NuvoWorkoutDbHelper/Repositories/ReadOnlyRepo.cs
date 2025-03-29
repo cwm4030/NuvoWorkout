@@ -14,10 +14,24 @@ public static class ReadOnlyRepo<TContext, TModel>
         return await models.ToListAsync();
     }
 
+    public static async Task<List<TMapped>> QueryMapped<TMapped>(Func<IQueryable<TModel>, IQueryable<TMapped>> queryFuc)
+    {
+        using var context = Activator.CreateInstance<TContext>();
+        var models = queryFuc(context.Set<TModel>().AsNoTracking());
+        return await models.ToListAsync();
+    }
+
     public static async Task<TModel?> QuerySingle(Func<IQueryable<TModel>, IQueryable<TModel>>? queryFuc = null)
     {
         using var context = Activator.CreateInstance<TContext>();
         var models = queryFuc != null ? queryFuc(context.Set<TModel>().AsNoTracking()) : context.Set<TModel>().AsNoTracking();
+        return await models.FirstOrDefaultAsync();
+    }
+
+    public static async Task<TMapped?> QuerySingleMapped<TMapped>(Func<IQueryable<TModel>, IQueryable<TMapped>> queryFuc)
+    {
+        using var context = Activator.CreateInstance<TContext>();
+        var models = queryFuc(context.Set<TModel>().AsNoTracking());
         return await models.FirstOrDefaultAsync();
     }
 

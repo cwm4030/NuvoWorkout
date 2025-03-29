@@ -65,16 +65,18 @@ public static class NwUserService
         }
     }
 
-    private static string HashPassword(string password)
+    private static string HashPassword(string password, byte[]? saltBytes = null)
     {
         var passwordBytes = Encoding.UTF8.GetBytes(password);
-        var saltBytes = RandomNumberGenerator.GetBytes(16);
+        saltBytes ??= RandomNumberGenerator.GetBytes(16);
         var hashBytes = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, 800000, HashAlgorithmName.SHA3_512, 64);
         return Convert.ToBase64String([.. saltBytes, .. hashBytes]);
     }
 
     private static bool IsCorrectPassword(string password, string passwordHash)
     {
-        return HashPassword(password) == passwordHash;
+        var passwordHashBytes = Convert.FromBase64String(passwordHash);
+        var saltBytes = passwordHashBytes.Take(16).ToArray();
+        return HashPassword(password, saltBytes) == passwordHash;
     }
 }

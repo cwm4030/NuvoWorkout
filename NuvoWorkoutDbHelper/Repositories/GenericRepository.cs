@@ -20,36 +20,16 @@ public static class GenericRepository<TContext, TModel>
         return await context.Set<TModel>().FromSqlRaw(sql).AsNoTracking().ToListAsync();
     }
 
-    public static async Task<IEnumerable<TModel>> QueryTracked(Func<IQueryable<TModel>, IQueryable<TModel>>? queryFuc = null)
-    {
-        using var context = Activator.CreateInstance<TContext>();
-        var models = queryFuc != null ? queryFuc(context.Set<TModel>()) : context.Set<TModel>();
-        return await models.ToListAsync();
-    }
-
     public static async Task<IEnumerable<TModel>> Find(Expression<Func<TModel, bool>> predicate)
     {
         using var context = Activator.CreateInstance<TContext>();
         return await context.Set<TModel>().AsNoTracking().Where(predicate).ToListAsync();
     }
 
-    public static async Task<IEnumerable<TModel>> FindTracked(Expression<Func<TModel, bool>> predicate)
-    {
-        using var context = Activator.CreateInstance<TContext>();
-        return await context.Set<TModel>().Where(predicate).ToListAsync();
-    }
-
     public static async Task<IEnumerable<TModel>> JoinedFind(Func<IQueryable<TModel>, IQueryable<TModel>> joinFunc, Expression<Func<TModel, bool>> predicate)
     {
         using var context = Activator.CreateInstance<TContext>();
         var models = joinFunc(context.Set<TModel>().AsNoTracking());
-        return await models.Where(predicate).ToListAsync();
-    }
-
-    public static async Task<IEnumerable<TModel>> JoinedFindTracked(Func<IQueryable<TModel>, IQueryable<TModel>> joinFunc, Expression<Func<TModel, bool>> predicate)
-    {
-        using var context = Activator.CreateInstance<TContext>();
-        var models = joinFunc(context.Set<TModel>());
         return await models.Where(predicate).ToListAsync();
     }
 }

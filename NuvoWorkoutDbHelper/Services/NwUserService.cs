@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NuvoWorkoutDbHelper.Context;
+using NuvoWorkoutDbHelper.Helpers;
 using NuvoWorkoutDbHelper.Models;
 using NuvoWorkoutDbHelper.Repositories;
 
@@ -11,7 +12,9 @@ public static class NwUserService
     {
         try
         {
-            var nwUsers = await NwUserRepository.GetAll(x => x.Include(u => u.NwUserPrograms));
+            var nwUsers = await GenericRepository<NuvoWorkoutContext, NwUser>.Query(
+                q => q.Include(u => u.NwUserPrograms).Where(u => u.Username == "cwmiller4030")
+            );
             var date = DateTime.Now;
             var user = new NwUser()
             {
@@ -37,7 +40,7 @@ public static class NwUserService
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message, ex.InnerException?.Message);
+            Console.WriteLine(ExceptionHelper.GetInnerExceptionMessage(ex));
             return false;
         }
     }

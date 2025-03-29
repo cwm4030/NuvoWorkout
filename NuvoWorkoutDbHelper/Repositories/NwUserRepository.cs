@@ -1,8 +1,0 @@
-using NuvoWorkoutDbHelper.Context;
-using NuvoWorkoutDbHelper.Models;
-
-namespace NuvoWorkoutDbHelper.Repositories;
-
-public class NwUserRepository : BaseRepository<NuvoWorkoutContext, NwUser>
-{
-}

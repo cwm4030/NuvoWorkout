@@ -53,10 +53,9 @@ create table nw_user_session(
     inactive boolean null,
     name varchar(128) null,
     description varchar(256) null,
-	week_number int null,
     session_number int null,
     nw_user_program_id bigint null references nw_user_program(id),
-    unique(nw_user_program_id, week_number, session_number)
+    unique(nw_user_program_id, session_number)
 );
 
 drop table if exists nw_user_workout cascade;
@@ -65,9 +64,10 @@ create table nw_user_workout(
     inactive boolean null,
     name varchar(128) null,
     description varchar(256) null,
+    week_number int null,
     workout_number int null,
     nw_user_session_id bigint null references nw_user_session(id),
-    unique(nw_user_session_id, workout_number)
+    unique(nw_user_session_id, week_number, workout_number)
 );
 
 drop table if exists nw_user_set cascade;

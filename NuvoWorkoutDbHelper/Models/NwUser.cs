@@ -19,6 +19,7 @@ public class NwUser
     public string? WeightMetric { get; set; }
     public decimal? Weight { get; set; }
     public decimal? BodyFatPercentage { get; set; }
+    public IEnumerable<NwUserProgram> NwUserPrograms { get; set; } = [];
 
     public static void ConfigureModel(ModelBuilder modelBuilder)
     {
@@ -40,6 +41,7 @@ public class NwUser
             entity.Property(e => e.WeightMetric).HasColumnName("weight_metric").HasColumnType("varchar(32)").IsRequired(false);
             entity.Property(e => e.Weight).HasColumnName("weight").HasColumnType("decimal").IsRequired(false);
             entity.Property(e => e.BodyFatPercentage).HasColumnName("body_fat_percentage").HasColumnType("decimal").IsRequired(false);
+            entity.HasMany(e => e.NwUserPrograms).WithOne().HasForeignKey(e => e.NwUserId).HasPrincipalKey(e => e.Id);
         });
     }
 }

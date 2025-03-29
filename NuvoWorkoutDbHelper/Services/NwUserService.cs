@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using NuvoWorkoutDbHelper.Context;
 using NuvoWorkoutDbHelper.Models;
+using NuvoWorkoutDbHelper.Repositories;
 
 namespace NuvoWorkoutDbHelper.Services;
 
@@ -9,6 +11,7 @@ public static class NwUserService
     {
         try
         {
+            var nwUsers = await NwUserRepository.GetAll(x => x.Include(u => u.NwUserPrograms));
             var date = DateTime.Now;
             var user = new NwUser()
             {

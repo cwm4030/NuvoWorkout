@@ -14,11 +14,15 @@ public static class NwUserService
     {
         try
         {
-            var matchingUserName = await ReadOnlyRepo<NuvoWorkoutContext, NwUser>.JoinedFindSingle(m => m.Include(u => u.NwUserPrograms), u => u.Username == nwUser.Username);
+            var matchingUserName = await ReadOnlyRepo<NuvoWorkoutContext, NwUser>.JoinedFindSingle(m => m.Include(u => u.NwUserPrograms), u => u.Username == nwUser.Username && u.Inactive != true);
             if (matchingUserName != null) return null;
 
+            var context = new NuvoWorkoutContext(true);
+            nwUser.Id = 0;
             nwUser.PasswordHash = HashPassword(nwUser.PasswordHash);
-            return nwUser;
+            var newNwUser = await context.AddAsync(nwUser);
+            await context.SaveChangesAsync();
+            return newNwUser.Entity;
         }
         catch (Exception ex)
         {

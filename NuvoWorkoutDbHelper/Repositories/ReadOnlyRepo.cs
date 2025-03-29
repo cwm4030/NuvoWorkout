@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NuvoWorkoutDbHelper.Repositories;
 
-public static class GenericRepository<TContext, TModel>
+public static class ReadOnlyRepo<TContext, TModel>
     where TContext : DbContext
     where TModel : class
 {

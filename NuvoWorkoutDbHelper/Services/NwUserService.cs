@@ -14,7 +14,7 @@ public static class NwUserService
     {
         try
         {
-            var matchingUserNames = await GenericRepository<NuvoWorkoutContext, NwUser>.JoinedFind(m => m.Include(u => u.NwUserPrograms), u => u.Username == nwUser.Username);
+            var matchingUserNames = await ReadOnlyRepo<NuvoWorkoutContext, NwUser>.JoinedFind(m => m.Include(u => u.NwUserPrograms), u => u.Username == nwUser.Username);
             if (matchingUserNames.Any()) return null;
 
             nwUser.PasswordHash = HashPassword(nwUser.PasswordHash);

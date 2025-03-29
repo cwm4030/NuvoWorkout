@@ -12,9 +12,7 @@ public static class NwUserService
     {
         try
         {
-            var nwUsers = await GenericRepository<NuvoWorkoutContext, NwUser>.Query(
-                q => q.Include(u => u.NwUserPrograms).Where(u => u.Username == "cwmiller4030")
-            );
+            var nwUsers = await GenericRepository<NuvoWorkoutContext, NwUser>.Query(q => q.Include(u => u.NwUserPrograms).Where(u => u.Username == "johndoe"));
             var date = DateTime.Now;
             var user = new NwUser()
             {

@@ -4,6 +4,7 @@ using NuvoWorkoutDbHelper.Helpers;
 using NuvoWorkoutDbHelper.Models;
 using NuvoWorkoutDbHelper.Repositories;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace NuvoWorkoutDbHelper.Services;
 
@@ -13,7 +14,7 @@ public static class NwUserService
     {
         try
         {
-            var matchingUserNames = await GenericRepository<NuvoWorkoutContext, NwUser>.Query(q => q.Where(u => u.Username == nwUser.Username));
+            var matchingUserNames = await GenericRepository<NuvoWorkoutContext, NwUser>.JoinedFind(m => m.Include(u => u.NwUserPrograms), u => u.Username == nwUser.Username);
             if (matchingUserNames.Any()) return null;
 
             nwUser.PasswordHash = HashPassword(nwUser.PasswordHash);

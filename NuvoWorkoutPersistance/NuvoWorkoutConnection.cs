@@ -17,10 +17,15 @@ public class NuvoWorkoutConnection
         NwUser.DefineModelMap(_databaseMap);
     }
 
-    public async Task<List<TModel>> Query<TModel>(string sql)
+    public async Task<List<TModel>> Query<TModel>(string sql, IEnumerable<NpgsqlParameter>? parameters = null)
     {
         using var dataSource = NpgsqlDataSource.Create(s_connectionString);
         await using var cmd = dataSource.CreateCommand(sql);
+        if (parameters != null)
+        {
+            foreach (var parameter in parameters)
+                cmd.Parameters.Add(parameter);
+        }
         await using var reader = await cmd.ExecuteReaderAsync();
         return await _databaseMap.MapModels<TModel>(reader);
     }

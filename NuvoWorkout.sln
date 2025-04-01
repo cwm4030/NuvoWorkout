@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuvoWorkout", "NuvoWorkoutP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuvoWorkoutDbHelper", "NuvoWorkoutDbHelper\NuvoWorkoutDbHelper.csproj", "{C55A8939-71F5-4F33-AB83-E255CF0E12D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuvoDb", "NuvoDb\NuvoDb.csproj", "{E9C5E664-268F-4DB9-B50B-19D5616D7849}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C55A8939-71F5-4F33-AB83-E255CF0E12D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C55A8939-71F5-4F33-AB83-E255CF0E12D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C55A8939-71F5-4F33-AB83-E255CF0E12D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C5E664-268F-4DB9-B50B-19D5616D7849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C5E664-268F-4DB9-B50B-19D5616D7849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C5E664-268F-4DB9-B50B-19D5616D7849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C5E664-268F-4DB9-B50B-19D5616D7849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

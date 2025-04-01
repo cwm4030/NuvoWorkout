@@ -1,4 +1,6 @@
 /.vscode
+/NuvoDb/bin
+/NuvoDb/obj
 /NuvoWorkoutDbHelper/bin
 /NuvoWorkoutDbHelper/obj
 /NuvoWorkoutPersistance/bin

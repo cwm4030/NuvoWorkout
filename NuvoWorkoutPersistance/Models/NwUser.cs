@@ -1,3 +1,5 @@
+using NuvoDb;
+
 namespace NuvoWorkoutPersistance.Models;
 
 public class NwUser
@@ -17,21 +19,23 @@ public class NwUser
     public decimal? Weight { get; set; }
     public decimal? BodyFatPercentage { get; set; }
 
-    public static void DefineModelMap(ModelMapper modelMapper)
+    public static void DefineModelMap(NuvoDatabaseMap databaseMap)
     {
-        modelMapper.AddPropertyMap<NwUser, long>(nameof(Id), "id", "bigint", true);
-        modelMapper.AddPropertyMap<NwUser, bool?>(nameof(Inactive), "inactive", "boolean");
-        modelMapper.AddPropertyMap<NwUser, DateTime?>(nameof(DateCreated), "date_created", "timestamp with time zone");
-        modelMapper.AddPropertyMap<NwUser, DateTime?>(nameof(DateUpdated), "date_updated", "timestamp with time zone");
-        modelMapper.AddPropertyMap<NwUser, string>(nameof(Username), "username", "varchar(128)", true);
-        modelMapper.AddPropertyMap<NwUser, string>(nameof(PasswordHash), "password_hash", "varchar(512)", true);
-        modelMapper.AddPropertyMap<NwUser, string?>(nameof(FirstName), "first_name", "varchar(128)");
-        modelMapper.AddPropertyMap<NwUser, string?>(nameof(MiddleName), "middle_name", "varchar(128)");
-        modelMapper.AddPropertyMap<NwUser, string?>(nameof(LastName), "last_name", "varchar(128)");
-        modelMapper.AddPropertyMap<NwUser, DateTime?>(nameof(BirthDate), "birth_date", "timestamp with time zone");
-        modelMapper.AddPropertyMap<NwUser, string?>(nameof(Sex), "sex", "varchar(32)");
-        modelMapper.AddPropertyMap<NwUser, string?>(nameof(WeightMetric), "weight_metric", "varchar(32)");
-        modelMapper.AddPropertyMap<NwUser, decimal?>(nameof(Weight), "weight", "decimal");
-        modelMapper.AddPropertyMap<NwUser, decimal?>(nameof(BodyFatPercentage), "body_fat_percentage", "decimal");
+        var modelMap = new NuvoModelMap(nameof(NwUser), "nw_user");
+        modelMap.DefinePropertyMap<NwUser, long>(nameof(Id), "id", "bigint", true);
+        modelMap.DefinePropertyMap<NwUser, bool?>(nameof(Inactive), "inactive", "boolean");
+        modelMap.DefinePropertyMap<NwUser, DateTime?>(nameof(DateCreated), "date_created", "timestamp with time zone");
+        modelMap.DefinePropertyMap<NwUser, DateTime?>(nameof(DateUpdated), "date_updated", "timestamp with time zone");
+        modelMap.DefinePropertyMap<NwUser, string>(nameof(Username), "username", "varchar(128)", true);
+        modelMap.DefinePropertyMap<NwUser, string>(nameof(PasswordHash), "password_hash", "varchar(512)", true);
+        modelMap.DefinePropertyMap<NwUser, string?>(nameof(FirstName), "first_name", "varchar(128)");
+        modelMap.DefinePropertyMap<NwUser, string?>(nameof(MiddleName), "middle_name", "varchar(128)");
+        modelMap.DefinePropertyMap<NwUser, string?>(nameof(LastName), "last_name", "varchar(128)");
+        modelMap.DefinePropertyMap<NwUser, DateTime?>(nameof(BirthDate), "birth_date", "timestamp with time zone");
+        modelMap.DefinePropertyMap<NwUser, string?>(nameof(Sex), "sex", "varchar(32)");
+        modelMap.DefinePropertyMap<NwUser, string?>(nameof(WeightMetric), "weight_metric", "varchar(32)");
+        modelMap.DefinePropertyMap<NwUser, decimal?>(nameof(Weight), "weight", "decimal");
+        modelMap.DefinePropertyMap<NwUser, decimal?>(nameof(BodyFatPercentage), "body_fat_percentage", "decimal");
+        databaseMap.DefineModelMap(modelMap);
     }
 }

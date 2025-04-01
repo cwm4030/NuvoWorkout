@@ -8,7 +8,7 @@ public class NuvoWorkoutConnection
 {
     private readonly NuvoDatabaseMap _databaseMap = new("nuvo_workout");
     private readonly static string s_connectionString = "Host=localhost;Port=5432;Database=nuvo_workout;Username=nuvo_workout;Password=SuperSecret;";
-    public NpgsqlDataSource? DataSource { get; set; }
+    public NpgsqlDataSource DataSource { get; set; }
     
     public NuvoWorkoutConnection()
     {
@@ -17,16 +17,27 @@ public class NuvoWorkoutConnection
         NwUser.DefineModelMap(_databaseMap);
     }
 
-    public async Task<List<TModel>> Query<TModel>(string sql, IEnumerable<NpgsqlParameter>? parameters = null)
+    public async Task<List<TModel>> Query<TModel>(string sql, IEnumerable<NpgsqlParameter>? parameters = null, bool newConnection = false)
+        where TModel : new()
     {
-        using var dataSource = NpgsqlDataSource.Create(s_connectionString);
-        await using var cmd = dataSource.CreateCommand(sql);
-        if (parameters != null)
+        var dataSource = DataSource;
+        try
         {
-            foreach (var parameter in parameters)
-                cmd.Parameters.Add(parameter);
+            dataSource = newConnection ? NpgsqlDataSource.Create(s_connectionString) : DataSource;
+            await using var cmd = dataSource.CreateCommand(sql);
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                    cmd.Parameters.Add(parameter);
+            }
+            await using var reader = await cmd.ExecuteReaderAsync();
+            if (newConnection) dataSource.Dispose();
+            return await _databaseMap.MapModels<TModel>(reader);
         }
-        await using var reader = await cmd.ExecuteReaderAsync();
-        return await _databaseMap.MapModels<TModel>(reader);
+        catch
+        {
+            if (newConnection) dataSource.Dispose();
+            throw;
+        }
     }
 }

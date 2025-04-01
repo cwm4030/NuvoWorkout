@@ -47,12 +47,6 @@ public class NuvoPropertyMap<TModel, TValue> : INuvoPropertyMap
         return ColumnRequired;
     }
 
-    public object? Cast(object? value)
-    {
-        if (value == null) return null;
-        return (TValue)value;
-    }
-
     public object? GetValue(object? model)
     {
         if (model == null || _getter == null) return null;
@@ -63,11 +57,5 @@ public class NuvoPropertyMap<TModel, TValue> : INuvoPropertyMap
     {
         if (model == null || value == null || _setter == null) return;
         _setter((TModel)model, (TValue)value);
-    }
-
-    public string ToSqlString(object? model)
-    {
-        if (model == null || _getter == null) return "null";
-        return _getter((TModel)model)?.ToString()?.Replace("\'", "\'\'") ?? "null";
     }
 }

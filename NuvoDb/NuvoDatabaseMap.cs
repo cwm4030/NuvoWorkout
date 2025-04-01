@@ -32,22 +32,20 @@ public class NuvoDatabaseMap(string databaseName)
     }
 
     public async Task<List<TModel>> MapModels<TModel>(DbDataReader reader)
+        where TModel : new()
     {
         List<TModel> models = [];
         var columnNameIndexes = GetColumnNameIndexes(reader);
-        var modelName = typeof(TModel).Name;
-        var modelMapping = GetModelMapFromModelName(modelName);
+        var modelMap = GetModelMapFromModelName(typeof(TModel).Name);
         while (await reader.ReadAsync())
         {
-            var model = Activator.CreateInstance<TModel>();
+            var model = new TModel();
             foreach (var (columnName, index) in columnNameIndexes)
             {
                 if (await reader.IsDBNullAsync(index)) continue;
-                var propertyMapping = modelMapping?.GetPropertyMapFromColumnName(columnName);
-                if (propertyMapping == null) continue;
-
-                var value = propertyMapping?.Cast(reader[columnName]);
-                propertyMapping?.SetValue(model, value);
+                var propertyMap = modelMap?.GetPropertyMapFromColumnName(columnName);
+                if (propertyMap == null) continue;
+                propertyMap?.SetValue(model, reader[columnName]);
             }
             models.Add(model);
         }

@@ -7,6 +7,8 @@ public class NuvoModelMap(string modelName, string schemaName)
 {
     public string ModelName { get; set; } = modelName;
     public string SchemaName { get; set; } = schemaName;
+    public HashSet<string> ModelProperties => [.. _propertyMaps.Keys.Where(k => k.StartsWith(s_property)).Select(k => k.Replace(s_property, string.Empty))];
+    public HashSet<string> TableColumns => [.. _propertyMaps.Keys.Where(k => k.StartsWith(s_column)).Select(k => k.Replace(s_column, string.Empty))];
     private static readonly string s_property = "property ";
     private static readonly string s_column = "column ";
     private readonly ConcurrentDictionary<string, INuvoPropertyMap> _propertyMaps = [];

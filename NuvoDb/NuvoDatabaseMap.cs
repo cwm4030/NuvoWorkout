@@ -35,8 +35,8 @@ public class NuvoDatabaseMap(string databaseName)
         where TModel : new()
     {
         List<TModel> models = [];
-        var columnNameIndexes = GetColumnNameIndexes(reader);
         var modelMap = GetModelMapFromModelName(typeof(TModel).Name);
+        var columnNameIndexes = GetColumnNameIndexes(reader, modelMap?.TableColumns ?? []);
         while (await reader.ReadAsync())
         {
             var model = new TModel();
@@ -52,11 +52,12 @@ public class NuvoDatabaseMap(string databaseName)
         return models;
     }
 
-    private static List<(string, int)> GetColumnNameIndexes(DbDataReader reader)
+    private static List<(string, int)> GetColumnNameIndexes(DbDataReader reader, HashSet<string> mappedColumnNames)
     {
         List<(string, int)> columnNameIndexes = [];
         for (var i = 0; i < reader.FieldCount; i++)
-            columnNameIndexes.Add((reader.GetName(i), i));
+            if (mappedColumnNames.Contains(reader.GetName(i)))
+                columnNameIndexes.Add((reader.GetName(i), i));
         
         return columnNameIndexes;
     }
